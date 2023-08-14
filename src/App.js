@@ -10,7 +10,7 @@ import {
 } from "react-router-dom";
 
 export default class FileName extends Component {
-  pageSize = 5;
+  pageSize = 6;
   render() {
     return (
     <div>

@@ -7,8 +7,8 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 export class News extends Component{
 
     static defaultProps = {
-        country: 'ch',
-        pageSize: 5,
+        country: 'hk',
+        pageSize: 6,
         category: 'general'
     }
 
@@ -29,21 +29,21 @@ export class News extends Component{
             articles: [],
             loading: false,
             page: 1,
-            totalResults: 0,
-            apiKey: 'f5f545c7bbb743e596b82a5db9abad91'
+            totalResults: 0
         }
         document.title = `${this.capitalizeFirstLetter(this.props.category)} - MyNews`;
     }
     
     async updateNews(){
-        const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.state.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
+        const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=f5f545c7bbb743e596b82a5db9abad91&page=${this.state.page}&pageSize=${this.props.pageSize}`;
         this.setState({loading: true});
         let data = await fetch(url);
         let parseData = await data.json();         // change to json file
         this.setState({
             articles: parseData.articles, 
             totalResults: parseData.totalResults,
-            loading: false});
+            loading: false
+        });
     }
 
     async componentDidMount(){
@@ -88,14 +88,12 @@ export class News extends Component{
 
     fetchMoreData = async() => {
         this.setState({page: this.state.page + 1})
-        const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.state.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
-        this.setState({loading: true});
+        const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=f5f545c7bbb743e596b82a5db9abad91&page=${this.state.page}&pageSize=${this.props.pageSize}`;
         let data = await fetch(url);
         let parseData = await data.json();         // change to json file
         this.setState({
             articles: this.state.articles.concat(parseData.articles), 
-            totalResults: parseData.totalResults,
-            loading: false
+            totalResults: parseData.totalResults
         });
     }
 
@@ -109,7 +107,7 @@ export class News extends Component{
                     next={this.fetchMoreData}
                     hasMore={this.state.articles.length !== this.state.totalResults}
                     loader={<Spinner/>}
-                    >
+                >
 
                 <div className='container'>
                     <div className="row">
@@ -135,6 +133,7 @@ export class News extends Component{
                 </div>
                 */}
             </>
+            
         )
     }
 }
