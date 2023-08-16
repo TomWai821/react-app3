@@ -36,14 +36,18 @@ export class News extends Component{
     }
     
     async updateNews(){
+        this.props.setProgress(0);
         const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.state.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
         this.setState({loading: true});
         let data = await fetch(url);
+        this.props.setProgress(30);
         let parseData = await data.json();         // change to json file
         this.setState({
             articles: parseData.articles, 
             totalResults: parseData.totalResults,
-            loading: false});
+            loading: false
+        })
+            this.props.setProgress(100);
     }
 
     async componentDidMount(){
@@ -89,13 +93,11 @@ export class News extends Component{
     fetchMoreData = async() => {
         this.setState({page: this.state.page + 1})
         const url = `https://newsapi.org/v2/top-headlines?country=${this.props.country}&category=${this.props.category}&apiKey=${this.state.apiKey}&page=${this.state.page}&pageSize=${this.props.pageSize}`;
-        this.setState({loading: true});
         let data = await fetch(url);
         let parseData = await data.json();         // change to json file
         this.setState({
             articles: this.state.articles.concat(parseData.articles), 
-            totalResults: parseData.totalResults,
-            loading: false
+            totalResults: parseData.totalResults
         });
     }
 
