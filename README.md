@@ -1,4 +1,4 @@
-#MyNews website project
+# MyNews website project
 
 This is a news website page made with react.js and has these method:
 
